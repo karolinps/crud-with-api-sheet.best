@@ -11,8 +11,8 @@ function FormComponent(props) {
   const [id, setId] = useState(null);
 
   useEffect(() => {
-    //eslint-disable-next-line react-hooks/exhaustive-deps
     data ? loadInfo(data) : loadInfoDefault();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const loadInfoDefault = () => {
