@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button, Popconfirm, Drawer, message, Spin } from "antd";
 import axios from "axios";
 import FormComponent from "./Form";
@@ -13,6 +13,7 @@ function TableComponent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     getData();
   }, []);
 
@@ -25,7 +26,7 @@ function TableComponent() {
         setLoading(false);
       }
     } catch (error) {
-      message.error('Ha ocurrido un error')
+      message.error("Ha ocurrido un error");
       console.log(error);
     }
   };
@@ -38,7 +39,7 @@ function TableComponent() {
         getData();
       }
     } catch (error) {
-      message.error('Ha ocurrido un error')
+      message.error("Ha ocurrido un error");
       console.log(error);
     }
   };

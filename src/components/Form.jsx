@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Input, message } from "antd";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import config from "../config";
+import PropTypes from "prop-types";
 
 function FormComponent(props) {
   const { onClose, data, getData } = props;
@@ -10,6 +11,7 @@ function FormComponent(props) {
   const [id, setId] = useState(null);
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     data ? loadInfo(data) : loadInfoDefault();
   }, [data]);
 
@@ -47,11 +49,11 @@ function FormComponent(props) {
           message.success("Se ha guardado exitosamente", 5);
           form.resetFields();
           onClose();
-          getData()
+          getData();
         }
       } catch (error) {
         console.log(error);
-        message.error('Ha ocurrido un error')
+        message.error("Ha ocurrido un error");
       }
     } else {
       try {
@@ -59,11 +61,11 @@ function FormComponent(props) {
         if (response) {
           message.success("Se ha actualizado exitosamente", 5);
           onClose();
-          getData()
+          getData();
         }
       } catch (error) {
         console.log(error);
-        message.error('Ha ocurrido un error')
+        message.error("Ha ocurrido un error");
       }
     }
   };
@@ -106,12 +108,16 @@ function FormComponent(props) {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            {data ? 'Actualizar': 'Agregar'}
+            {data ? "Actualizar" : "Agregar"}
           </Button>
         </Form.Item>
       </Form>
     </>
   );
 }
-
+FormComponent.propTypes = {
+  onClose: PropTypes.any,
+  data: PropTypes.any,
+  getData: PropTypes.any,
+};
 export default FormComponent;
