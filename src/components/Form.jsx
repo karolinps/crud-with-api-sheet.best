@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import config from "../config";
 
 function FormComponent(props) {
-  const { onClose, data } = props;
+  const { onClose, data, getData } = props;
   const [form] = Form.useForm();
   const [id, setId] = useState(null);
 
@@ -31,6 +31,7 @@ function FormComponent(props) {
       phone: data.phone,
     });
   };
+
   const sendData = async (values) => {
     const obj = {
       id: id ? id : uuidv4(),
@@ -43,23 +44,26 @@ function FormComponent(props) {
       try {
         const response = await axios.post(config.api, obj);
         if (response) {
-          message.success("Se ha guardado exitosamente", 10);
+          message.success("Se ha guardado exitosamente", 5);
           form.resetFields();
           onClose();
+          getData()
         }
       } catch (error) {
         console.log(error);
+        message.error('Ha ocurrido un error')
       }
     } else {
       try {
-        const response = axios.put(`${config.api}/id/*${id}*`, obj);
+        const response = await axios.put(`${config.api}/id/*${id}*`, obj);
         if (response) {
-          message.success("Se ha guardado exitosamente", 10);
-          form.resetFields();
+          message.success("Se ha actualizado exitosamente", 5);
           onClose();
+          getData()
         }
       } catch (error) {
         console.log(error);
+        message.error('Ha ocurrido un error')
       }
     }
   };

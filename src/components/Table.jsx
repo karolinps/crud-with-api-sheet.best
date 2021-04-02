@@ -16,22 +16,29 @@ function TableComponent() {
     getData();
   }, []);
 
-  const getData = () => {
+  const getData = async () => {
     setLoading(true);
-    axios.get(config.api).then((resp) => {
-      setData(resp.data)
-      setLoading(false);
-    });
+    try {
+      const response = await axios.get(config.api);
+      if (response) {
+        setData(response.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      message.error('Ha ocurrido un error')
+      console.log(error);
+    }
   };
 
   const confirmDelete = async (id) => {
     try {
-      const response = axios.delete(`${config.api}/id/*${id}*`);
+      const response = await axios.delete(`${config.api}/id/*${id}*`);
       if (response) {
-        message.success("Se ha borrado exitosamente", 10);
+        message.success("Se ha borrado exitosamente", 5);
         getData();
       }
     } catch (error) {
+      message.error('Ha ocurrido un error')
       console.log(error);
     }
   };
@@ -54,7 +61,7 @@ function TableComponent() {
         onClose={onClose}
         visible={visible}
       >
-        <FormComponent onClose={onClose} data={dataByItem} />
+        <FormComponent onClose={onClose} data={dataByItem} getData={getData} />
       </Drawer>
     </>
   );
